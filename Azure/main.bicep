@@ -27,7 +27,7 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   location: location
   sku: {
     capacity: 1
-    name: 'Free_F1'
+    name: 'Standard_S1'
   }
   properties: {
     features: [
@@ -56,6 +56,10 @@ var shared_config = [
   {
     name: 'AZURE_SIGNALR_CONNECTIONSTRING'
     value: signalr.listKeys().primaryConnectionString
+  }
+  {
+    name: 'ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS'
+    value: true
   }
 ]
 
