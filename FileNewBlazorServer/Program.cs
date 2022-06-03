@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using FileNewBlazorServer.Data;
 using Microsoft.AspNetCore.DataProtection;
 
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // make sure the blob storage container exists
 var storageConnectionString = builder.Configuration.GetValue<string>("AZURE_STORAGE_CONNECTIONSTRING");
 var blobContainerName = builder.Configuration.GetValue<string>("KEYS_BLOB_CONTAINER");
+var container = new BlobContainerClient(storageConnectionString, blobContainerName);
+await container.CreateIfNotExistsAsync();
+
 builder.Services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml");
 
