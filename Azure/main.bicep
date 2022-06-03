@@ -111,6 +111,10 @@ var shared_config = [
     name: 'KEYS_BLOB_CONTAINER'
     value: 'keys'
   }
+  {
+    name: 'KEY_VAULT_NAME'
+    value: toLower('${resourceGroup().name}kv')
+  }
 ]
 
 // create the products api container app
