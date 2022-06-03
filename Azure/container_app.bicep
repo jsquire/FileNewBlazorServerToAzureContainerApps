@@ -55,6 +55,13 @@ resource containerApp 'Microsoft.App/containerApps@2022-01-01-preview' ={
           ]
         }
       ]
+      volumes: [
+        {
+          name: 'dpks'
+          storageName: 'dpks'
+          storageType: 'EmptyDir'
+        }
+      ]
       scale: {
         minReplicas: minReplicas
         maxReplicas: maxReplicas
