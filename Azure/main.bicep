@@ -39,7 +39,7 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   }
 }
 
-resource storage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   name: toLower('${resourceGroup().name}strg')
   location: location
   kind: 'StorageV2'
