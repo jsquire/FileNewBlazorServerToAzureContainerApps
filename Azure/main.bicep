@@ -80,6 +80,13 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   }
 }
 
+resource key 'Microsoft.KeyVault/vaults/keys@2021-11-01-preview' = {
+  name: 'dataprotection'
+  parent: keyVault
+  properties: {
+    
+  }
+}
 
 // create the various config pairs
 var shared_config = [
@@ -114,6 +121,10 @@ var shared_config = [
   {
     name: 'KEY_VAULT_NAME'
     value: toLower('${resourceGroup().name}kv')
+  }
+  {
+    name: 'KEY_VAULT_KEY'
+    value: 'dataprotection'
   }
 ]
 
