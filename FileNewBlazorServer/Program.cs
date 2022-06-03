@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Azure.Storage.Blobs;
 using FileNewBlazorServer.Data;
 using Microsoft.AspNetCore.DataProtection;
@@ -10,8 +11,11 @@ var blobContainerName = builder.Configuration.GetValue<string>("KEYS_BLOB_CONTAI
 var container = new BlobContainerClient(storageConnectionString, blobContainerName);
 await container.CreateIfNotExistsAsync();
 
+// wire up the data protection services and connect to keyvault
+var keyVaultName = builder.Configuration.GetValue<string>("KEY_VAULT_NAME");
 builder.Services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml");
+                .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml")
+                .ProtectKeysWithAzureKeyVault(new Uri($"https://{keyVaultName}.vault.azure.net/keys/dataprotection"), new DefaultAzureCredential());
 
 // Add services to the container.
 var signalrConnectionString = builder.Configuration.GetValue<string>("AZURE_SIGNALR_CONNECTIONSTRING");

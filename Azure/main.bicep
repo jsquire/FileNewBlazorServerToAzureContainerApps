@@ -48,6 +48,38 @@ resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   }
 }
 
+resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
+  name: toLower('${resourceGroup().name}kv')
+  location: location
+  properties: {
+    enabledForDeployment: true
+    enabledForTemplateDeployment: true
+    enabledForDiskEncryption: true
+    tenantId: subscription().tenantId
+    accessPolicies: [
+      {
+        tenantId: subscription().tenantId
+        objectId: blazorserver.outputs.ident
+        permissions: {
+          keys: [
+            'get'
+            'unwrapKey'
+            'wrapKey'
+          ]
+          secrets: [
+            'list'
+            'get'
+          ]
+        }
+      }
+    ]
+    sku: {
+      name: 'standard'
+      family: 'A'
+    }
+  }
+}
+
 
 // create the various config pairs
 var shared_config = [

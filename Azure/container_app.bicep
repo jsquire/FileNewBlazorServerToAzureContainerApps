@@ -17,6 +17,9 @@ param registryPassword string
 resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
   name: name
   location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties:{
     managedEnvironmentId: containerAppEnvironmentId
     configuration: {
@@ -58,3 +61,5 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
 }
 
 output fqdn string = containerApp.properties.configuration.ingress.fqdn
+output ident string = containerApp.identity.principalId
+
