@@ -15,15 +15,6 @@ resource logs 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
   })
 }
 
-resource storage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: '${baseName}strg'
-  location: location
-  kind: 'StorageV2'
-  sku: {
-    name: 'Premium_LRS'
-  }
-}
-
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: '${baseName}ai'
