@@ -47,6 +47,12 @@ resource containerApp 'Microsoft.App/containerApps@2022-01-01-preview' ={
           image: repositoryImage
           name: name
           env: envVars
+          volumeMounts: [
+            {
+              mountPath: '/root/.aspnet/DataProtection-Keys'
+              volumeName: 'dpks'
+            }
+          ]
         }
       ]
       scale: {
