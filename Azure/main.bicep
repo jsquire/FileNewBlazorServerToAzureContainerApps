@@ -39,6 +39,16 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   }
 }
 
+resource storage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: toLower('${resourceGroup().name}strg')
+  location: location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+}
+
+
 // create the various config pairs
 var shared_config = [
   {
@@ -58,8 +68,16 @@ var shared_config = [
     value: signalr.listKeys().primaryConnectionString
   }
   {
+    name: 'AZURE_STORAGE_CONNECTIONSTRING'
+    value: format('DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=core.windows.net')
+  }
+  {
     name: 'ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS'
     value: 'true'
+  }
+  {
+    name: 'KEYS_BLOB_CONTAINER'
+    value: 'keys'
   }
 ]
 

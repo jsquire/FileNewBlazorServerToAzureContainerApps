@@ -1,12 +1,18 @@
 using FileNewBlazorServer.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// make sure the blob storage container exists
+var storageConnectionString = builder.Configuration.GetValue<string>("AZURE_STORAGE_CONNECTIONSTRING");
+var blobContainerName = builder.Configuration.GetValue<string>("KEYS_BLOB_CONTAINER");
+builder.Services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml");
+
 // Add services to the container.
+var signalrConnectionString = builder.Configuration.GetValue<string>("AZURE_SIGNALR_CONNECTIONSTRING");
 builder.Services.AddRazorPages();
-builder.Services.AddSignalR().AddAzureSignalR(builder.Configuration.GetValue<string>("AZURE_SIGNALR_CONNECTIONSTRING"));
+builder.Services.AddSignalR().AddAzureSignalR(signalrConnectionString);
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
@@ -20,10 +26,7 @@ if (!app.Environment.IsDevelopment())
 
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
 app.Run();
