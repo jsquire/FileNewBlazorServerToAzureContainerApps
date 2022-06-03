@@ -59,7 +59,7 @@ var shared_config = [
   }
   {
     name: 'ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS'
-    value: true
+    value: 'true'
   }
 ]
 
