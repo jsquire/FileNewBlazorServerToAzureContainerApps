@@ -84,7 +84,8 @@ resource key 'Microsoft.KeyVault/vaults/keys@2021-11-01-preview' = {
   name: 'dataprotection'
   parent: keyVault
   properties: {
-    
+    kty: 'RSA'
+    keySize: 4096
   }
 }
 
