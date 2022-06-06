@@ -18,8 +18,7 @@ var uri = $"https://{keyVaultName}.vault.azure.net/keys/{keyName}";
 
 builder.Services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml")
-                //.ProtectKeysWithAzureKeyVault(new Uri(uri), new DefaultAzureCredential())
-                ;
+                .ProtectKeysWithAzureKeyVault(new Uri(uri), new DefaultAzureCredential());
 
 // Add services to the container.
 var signalrConnectionString = builder.Configuration.GetValue<string>("AZURE_SIGNALR_CONNECTIONSTRING");
