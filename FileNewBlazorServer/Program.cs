@@ -18,7 +18,8 @@ var uri = $"https://{keyVaultName}.vault.azure.net/keys/{keyName}";
 
 builder.Services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml")
-                //.ProtectKeysWithAzureKeyVault(new Uri(uri), new DefaultAzureCredential())
+                .ProtectKeysWithAzureKeyVault(new Uri(uri), new DefaultAzureCredential())
+                .SetApplicationName("BlazorFrontEndTest")
                 ;
 
 // Add services to the container.
