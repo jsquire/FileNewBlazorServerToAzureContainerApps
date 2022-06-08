@@ -2,6 +2,7 @@ using Azure.Identity;
 using Azure.Storage.Blobs;
 using FileNewBlazorServer.Data;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddSignalR().AddAzureSignalR(signalrConnectionString);
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+// This line adds basic Azure SDK components; in this case,
+// it will enable log forwarding to allow SDK logs to be captured.
+builder.Services.AddAzureClientsCore();
 
 var app = builder.Build();
 
