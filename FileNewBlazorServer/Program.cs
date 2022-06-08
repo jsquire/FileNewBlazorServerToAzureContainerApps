@@ -3,6 +3,7 @@ using Azure.Storage.Blobs;
 using FileNewBlazorServer.Data;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Azure;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +16,11 @@ await container.CreateIfNotExistsAsync();
 // wire up the data protection services and connect to keyvault
 var keyVaultName = builder.Configuration.GetValue<string>("KEY_VAULT_NAME");
 var keyName = builder.Configuration.GetValue<string>("KEY_VAULT_KEY");
-var uri = $"https://{keyVaultName}.vault.azure.net/keys/{keyName}";
+var uri = $"https://{keyVaultName}.vault.azure.net/keys/{keyName}/";
 
 builder.Services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(storageConnectionString, blobContainerName, "keys.xml")
                 .ProtectKeysWithAzureKeyVault(new Uri(uri), new DefaultAzureCredential())
-                .SetApplicationName("BlazorFrontEndTest")
                 ;
 
 // Add services to the container.
